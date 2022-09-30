@@ -20,21 +20,23 @@ const overlapped = {
 };
 
 const nonOverlapped = {
-  init: new Date("08-16-2022 19:00:00"),
-  end: new Date("08-16-2022 20:00:00"),
+  init: new Date("08-16-2022 18:00:00"),
+  end: new Date("08-16-2022 21:00:00"),
 };
 
 const isOverlapped = (date, listOfDates) => {
-  const initOverlap = listOfDates.map((item) => date.init <= item.end);
-  const endOverlap = listOfDates.map((item) => date.end >= item.init);
-  const crossed = initOverlap
-    .map((item, i) => item && endOverlap[i])
+  return listOfDates
+    .map((item) => date.init < item.end === date.end > item.init)
     .some((i) => i);
-  return crossed;
 };
 
+console.time('nonOver')
 console.log("Non overlapped: ", isOverlapped(nonOverlapped, dateList)); // should be false
+console.timeEnd('nonOver')
+
+console.time('over')
 console.log("Overlapped: ", isOverlapped(overlapped, dateList)); // should be true
+console.timeEnd('over')
 
 /**
  * Vague Javascript implementation of an algorithm to detect
